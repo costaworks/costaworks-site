@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — CostaWorks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1814;
+      --paper: #f4f1eb;
+      --rust: #b84c2a;
+      --rust-light: #d9632e;
+      --mid: #6b6560;
+      --rule: #d8d3ca;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Fraunces', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--rust); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 10rem 3rem 5rem;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+    }
+
+    .page-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .page-title {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.2s;
+    }
+
+    .page-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .page-intro {
+      font-size: 1rem;
+      color: var(--mid);
+      line-height: 1.75;
+      max-width: 48ch;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+      align-self: end;
+    }
+
+    /* ── CONTENT SECTIONS ── */
+    .content-section {
+      padding: 5rem 3rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .content-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .content-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      padding-top: 0.3rem;
+      position: sticky;
+      top: 5rem;
+    }
+
+    .content-body h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+
+    .content-body p {
+      font-size: 0.88rem;
+      color: var(--mid);
+      margin-bottom: 1rem;
+      max-width: 62ch;
+      line-height: 1.8;
+    }
+
+    .content-body p:last-child { margin-bottom: 0; }
+
+    .content-body strong { color: var(--ink); font-weight: 500; }
+
+    /* inline highlight */
+    .highlight {
+      display: inline;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.05em 0.3em;
+      font-style: normal;
+    }
+
+    /* ── SKILLS BLOCK ── */
+    .skills-block {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 3rem;
+    }
+
+    .skill-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .skill-name {
+      font-size: 0.82rem;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .skill-bar {
+      height: 2px;
+      background: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      background: var(--rust);
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    .skill-fill.animated { width: var(--w); }
+
+    /* ── PHILOSOPHY BLOCK (dark) ── */
+    .philosophy {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .philosophy .content-label { color: #555; }
+    .philosophy .content-body h3 { color: var(--paper); }
+    .philosophy .content-body p { color: #888; }
+    .philosophy .content-body strong { color: var(--paper); }
+
+    /* pull quote */
+    .pull-quote {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--rust-light);
+      line-height: 1.4;
+      border-left: 2px solid var(--rust-light);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    /* ── WORKING WITH ME ── */
+    .working-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 2rem;
+      border: 1px solid var(--rule);
+    }
+
+    .working-card {
+      padding: 2rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .working-card:last-child { border-right: none; }
+
+    .working-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .working-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .working-desc {
+      font-size: 0.8rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: var(--rust);
+      color: #fff;
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+
+    .cta-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 300;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-sub {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #fff;
+      color: var(--rust);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.75rem;
+      font-family: var(--mono);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .cta-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p { font-size: 0.75rem; color: var(--mid); }
+
+    footer a {
+      font-size: 0.75rem;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--rust); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-header { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 2rem; }
+      .content-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .content-label { position: static; }
+      .content-section { padding: 3rem 1.5rem; }
+      .skills-block { grid-template-columns: 1fr; }
+      .working-grid { grid-template-columns: 1fr; }
+      .working-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .working-card:last-child { border-bottom: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/home" class="nav-logo">CostaWorks</a>
+    <ul class="nav-links">
+      <li><a href="/services/engineering">Services</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/about" class="active">About</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div>
+      <p class="page-label">About</p>
+      <h1 class="page-title">The engineer<br>doing the <em>work.</em></h1>
+    </div>
+    <p class="page-intro">
+      I'm a mechanical engineer who has worked across the full product lifecycle — from early concept through production. My background is rooted in the automotive aftermarket, where designs have to be durable, cost-conscious, and buildable in the real world.
+    </p>
+  </header>
+
+  <!-- BACKGROUND -->
+  <div class="content-section">
+    <div class="content-inner">
+      <p class="content-label reveal">Background</p>
+      <div class="content-body reveal">
+        <h3>Built in the real world.</h3>
+        <p>
+          My work has shipped on <strong>professional race cars</strong>, street vehicles around the world, and in products used by <strong>Fortune 500 companies</strong>. It has also included custom hardware, audio systems, and manufacturing tooling.
+        </p>
+        <p>
+          The automotive aftermarket is an unforgiving environment. Parts have to survive real abuse, pass muster with demanding customers, and be manufacturable at a price that makes sense. That mindset carries into every project I take on, regardless of industry.
+        </p>
+        <p>
+          Over the years I've been involved at nearly every stage of product development — not just the design phase. That means I design with manufacturing, tolerances, inspection, and cost already in mind. Fewer surprises later.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="content-section">
+    <div class="content-inner">
+      <p class="content-label reveal">Skills</p>
+      <div class="content-body reveal">
+        <h3>Certified and applied.</h3>
+        <p>Professional qualifications in SolidWorks, multi-axis CAM, and metrology — used daily, not just listed.</p>
+
+        <div class="skills-block">
+          <div class="skill-row">
+            <span class="skill-name">Mechanical Design & CAD</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:95%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Multi-axis CAM Programming</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:90%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Metrology & Inspection</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:88%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">DFM / DFA</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:92%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Prototyping & Testing</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:93%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Vendor & Supply Chain</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:82%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHY (dark) -->
+  <div class="content-section philosophy">
+    <div class="content-inner">
+      <p class="content-label reveal">Philosophy</p>
+      <div class="content-body reveal">
+        <h3>Why I work independently.</h3>
+        <blockquote class="pull-quote">
+          "The people doing the work should be talking to the people with the problem."
+        </blockquote>
+        <p>
+          I've worked with companies of many sizes. Larger firms have their place, but they often create distance between clients and engineers — communication slows, accountability diffuses, and the person with context isn't the one in the meeting.
+        </p>
+        <p>
+          Working independently keeps it simple. <strong>You talk to me. I do the work.</strong> If a project scales beyond what I can handle solo, I have a trusted network of experienced engineers I can bring in — without sacrificing accountability.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKING WITH ME -->
+  <div class="content-section">
+    <div class="content-inner">
+      <p class="content-label reveal">Working with me</p>
+      <div class="content-body reveal" style="width:100%">
+        <h3>What to expect.</h3>
+
+        <div class="working-grid">
+          <div class="working-card">
+            <div class="working-icon">✉️</div>
+            <div class="working-title">Direct communication</div>
+            <div class="working-desc">Every message you send is read and answered by me. No filtering, no delays, no automated replies.</div>
+          </div>
+          <div class="working-card">
+            <div class="working-icon">🌐</div>
+            <div class="working-title">Flexible availability</div>
+            <div class="working-desc">I work with clients across multiple time zones and can accommodate scheduling outside traditional hours.</div>
+          </div>
+          <div class="working-card">
+            <div class="working-icon">🔧</div>
+            <div class="working-title">Scalable if needed</div>
+            <div class="working-desc">I keep my workload manageable. If your project grows, I have a vetted network to bring in without losing continuity.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <p class="cta-label">Let's work together</p>
+    <h2 class="cta-title">Tell me what you're building.</h2>
+    <p class="cta-sub">I'll give you a straight answer on whether and how I can help.</p>
+    <a href="/contact" class="cta-btn">
+      Get in touch
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 CostaWorks. All rights reserved.</p>
+    <div style="display:flex; gap:2rem;">
+      <a href="/services/engineering">Services</a>
+      <a href="/projects">Projects</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Skill bar animation
+    const bars = document.querySelectorAll('.skill-fill');
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('animated'), 200);
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    bars.forEach(b => barObserver.observe(b));
+  </script>
+</body>
+</html>
