@@ -9,511 +9,161 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --ink: #1a1814;
-      --paper: #f4f1eb;
-      --rust: #b84c2a;
-      --rust-light: #d9632e;
-      --mid: #6b6560;
-      --rule: #d8d3ca;
-      --mono: 'DM Mono', monospace;
-      --serif: 'Fraunces', serif;
+      --bg: #111009; --bg-raised: #161411; --bg-card: #1c1916;
+      --text: #ddd8d0; --text-mid: #a09890; --text-dim: #6a6258;
+      --rust: #c4532e; --rust-light: #e0632e; --rule: #2a2520;
+      --mono: 'DM Mono', monospace; --serif: 'Fraunces', serif;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 15px; line-height: 1.75; overflow-x: hidden; }
 
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: 15px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--bg); border-bottom: 1px solid var(--rule); }
+    .nav-logo { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--rust-light); }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 3rem;
-      background: var(--paper);
-      border-bottom: 1px solid var(--rule);
-    }
+    /* HERO */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 72px; }
+    .hero-left { padding: 7rem 3rem 5rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--rule); position: relative; overflow: hidden; }
+    .hero-left::before { content: ''; position: absolute; bottom: -20%; left: -10%; width: 500px; height: 500px; background: radial-gradient(ellipse, rgba(196,83,46,0.06) 0%, transparent 65%); pointer-events: none; }
+    .hero-label { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 300; line-height: 1.06; letter-spacing: -0.025em; margin-bottom: 1.75rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s; }
+    .hero-title em { font-style: italic; color: var(--rust-light); }
+    .hero-sub { font-size: 0.95rem; color: var(--text-mid); max-width: 42ch; margin-bottom: 2.25rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.35s; line-height: 1.85; }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease forwards 0.5s; }
 
-    .nav-logo {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      text-decoration: none;
-    }
+    .btn-rust { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--rust); color: #fff; text-decoration: none; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.75rem; font-family: var(--mono); transition: background 0.2s, transform 0.2s; border: none; cursor: pointer; }
+    .btn-rust:hover { background: var(--rust-light); transform: translateY(-1px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.75rem; background: transparent; color: var(--text-mid); text-decoration: none; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.75rem; font-family: var(--mono); border: 1px solid var(--rule); transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost:hover { border-color: var(--rust); color: var(--rust-light); }
+    .btn-white { display: inline-flex; align-items: center; gap: 0.75rem; background: #fff; color: var(--rust); font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.75rem; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
+    .btn-white:hover { opacity: 0.92; transform: translateY(-1px); }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--mid);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--rust); }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 72px;
-    }
-
-    .hero-left {
-      padding: 7rem 3rem 5rem 3rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-right: 1px solid var(--rule);
-      position: relative;
-    }
-
-    .hero-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.1s;
-    }
-
-    .hero-title {
-      font-family: var(--serif);
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.2s;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--rust);
-    }
-
-    .hero-sub {
-      font-size: 0.92rem;
-      color: var(--mid);
-      max-width: 38ch;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.35s;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: var(--rust);
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.9rem 1.75rem;
-      transition: background 0.2s, transform 0.2s;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.5s;
-      width: fit-content;
-    }
-
-    .hero-cta:hover {
-      background: var(--rust-light);
-      transform: translateY(-1px);
-    }
-
-    .hero-cta svg { flex-shrink: 0; }
-
-    /* diagonal accent line */
-    .hero-left::after {
-      content: '';
-      position: absolute;
-      bottom: 3rem;
-      left: 3rem;
-      width: 48px;
-      height: 1px;
-      background: var(--rust);
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 0.8s;
-    }
-
-    .hero-right {
-      padding: 7rem 3rem 5rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 2.5rem;
-    }
-
-    .proof-item {
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards;
-    }
+    .hero-right { padding: 7rem 4rem 5rem; display: flex; flex-direction: column; justify-content: center; gap: 0; }
+    .proof-item { padding: 1.75rem 0; border-bottom: 1px solid var(--rule); opacity: 0; animation: fadeUp 0.6s ease forwards; }
+    .proof-item:first-child { padding-top: 0; }
+    .proof-item:last-child { border-bottom: none; }
     .proof-item:nth-child(1) { animation-delay: 0.4s; }
     .proof-item:nth-child(2) { animation-delay: 0.55s; }
     .proof-item:nth-child(3) { animation-delay: 0.7s; }
     .proof-item:nth-child(4) { animation-delay: 0.85s; }
+    .proof-num { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; font-style: italic; color: var(--rust-light); line-height: 1; margin-bottom: 0.25rem; }
+    .proof-label { font-size: 0.85rem; color: var(--text); font-weight: 500; margin-bottom: 0.15rem; }
+    .proof-desc { font-size: 0.78rem; color: var(--text-dim); }
 
-    .proof-num {
-      font-family: var(--serif);
-      font-size: 2.4rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--rust);
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
+    /* SECTIONS */
+    section { padding: 6rem 3rem; border-top: 1px solid var(--rule); }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.25rem; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .section-title em { font-style: italic; color: var(--rust-light); }
+    .section-sub { font-size: 0.88rem; color: var(--text-mid); max-width: 56ch; line-height: 1.85; margin-bottom: 3rem; }
 
-    .proof-label {
-      font-size: 0.82rem;
-      color: var(--ink);
-      font-weight: 500;
-      margin-bottom: 0.2rem;
-    }
-
-    .proof-desc {
-      font-size: 0.78rem;
-      color: var(--mid);
-    }
-
-    .proof-divider {
-      width: 100%;
-      height: 1px;
-      background: var(--rule);
-    }
-
-    /* ── SECTION BASE ── */
-    section {
-      padding: 6rem 3rem;
-      border-top: 1px solid var(--rule);
-    }
-
-    .section-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      font-weight: 300;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title em { font-style: italic; color: var(--rust); }
-
-    /* ── WHAT I DO ── */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      margin-top: 3rem;
-      border: 1px solid var(--rule);
-    }
-
-    .service-card {
-      padding: 2rem;
-      border-right: 1px solid var(--rule);
-    }
-
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); }
+    .service-card { padding: 2rem; border-right: 1px solid var(--rule); }
     .service-card:last-child { border-right: none; }
+    .service-icon { font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .service-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .service-desc { font-size: 0.8rem; color: var(--text-mid); line-height: 1.7; }
 
-    .service-icon {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
+    /* PROOF STRIP */
+    .proof-strip { background: var(--bg-raised); border-top: 1px solid var(--rule); }
+    .proof-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); margin-top: 3rem; }
+    .proof-strip-item { background: var(--bg-raised); padding: 2rem 1.5rem; }
+    .strip-num { font-family: var(--serif); font-size: 2rem; font-style: italic; font-weight: 300; color: var(--rust-light); margin-bottom: 0.5rem; }
+    .strip-label { font-size: 0.82rem; color: var(--text); font-weight: 500; margin-bottom: 0.25rem; }
+    .strip-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; }
 
-    .service-name {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.6rem;
-    }
+    /* PROCESS */
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule); margin-top: 3rem; }
+    .process-step { padding: 2rem 1.5rem; border-right: 1px solid var(--rule); }
+    .process-step:last-child { border-right: none; }
+    .step-num { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--rust); margin-bottom: 0.75rem; }
+    .step-title { font-family: var(--serif); font-size: 1rem; font-weight: 300; font-style: italic; color: var(--text); margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.78rem; color: var(--text-mid); line-height: 1.65; }
 
-    .service-desc {
-      font-size: 0.8rem;
-      color: var(--mid);
-      line-height: 1.65;
-    }
+    /* CTA BAND */
+    .cta-band { background: var(--rust); text-align: center; border-top: none; }
+    .cta-band .section-label { color: rgba(255,255,255,0.55); }
+    .cta-band .section-title { color: #fff; }
+    .cta-band p { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; max-width: 48ch; margin-left: auto; margin-right: auto; }
 
-    /* ── HOW IT WORKS ── */
-    .process-bg {
-      background: var(--ink);
-      color: var(--paper);
-    }
+    footer { padding: 2rem 3rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: 0.73rem; color: var(--text-dim); }
+    footer a { font-size: 0.73rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; margin-left: 2rem; }
+    footer a:hover { color: var(--rust-light); }
 
-    .process-bg .section-label { color: var(--rust-light); }
-    .process-bg .section-title { color: var(--paper); }
-    .process-bg .proof-divider { background: #333; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      margin-top: 3rem;
-      background: #333;
-    }
-
-    .process-step {
-      background: var(--ink);
-      padding: 2rem 1.5rem;
-    }
-
-    .step-num {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--rust-light);
-      margin-bottom: 1rem;
-    }
-
-    .step-title {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--paper);
-      margin-bottom: 0.5rem;
-    }
-
-    .step-desc {
-      font-size: 0.78rem;
-      color: #888;
-      line-height: 1.6;
-    }
-
-    /* ── CREDENTIALS ── */
-    .creds-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-
-    .cred-group h3 {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .cred-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .cred-list li {
-      font-size: 0.85rem;
-      color: var(--ink);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .cred-list li::before {
-      content: '—';
-      color: var(--rust);
-      flex-shrink: 0;
-      margin-top: 0.05em;
-    }
-
-    /* ── CTA BAND ── */
-    .cta-band {
-      background: var(--rust);
-      color: #fff;
-      text-align: center;
-      padding: 5rem 3rem;
-      border-top: none;
-    }
-
-    .cta-band .section-label { color: rgba(255,255,255,0.6); }
-
-    .cta-band .section-title {
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-
-    .cta-band p {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 2.5rem;
-    }
-
-    .cta-btn-light {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: #fff;
-      color: var(--rust);
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.9rem 1.75rem;
-      transition: opacity 0.2s, transform 0.2s;
-      font-family: var(--mono);
-    }
-
-    .cta-btn-light:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 3rem;
-      border-top: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer p {
-      font-size: 0.75rem;
-      color: var(--mid);
-    }
-
-    footer a {
-      font-size: 0.75rem;
-      color: var(--mid);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    footer a:hover { color: var(--rust); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* scroll-reveal utility */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.5rem; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; } .nav-links { gap: 1.25rem; }
       .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--rule); }
+      .hero-left { padding: 6rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--rule); }
       .hero-right { padding: 3rem 1.5rem; }
       .services-grid { grid-template-columns: 1fr; }
       .service-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .service-card:last-child { border-bottom: none; }
+      .proof-strip-grid { grid-template-columns: 1fr 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
-      .creds-grid { grid-template-columns: 1fr; }
+      .process-step:nth-child(2) { border-right: none; }
+      .process-step:nth-child(3), .process-step:nth-child(4) { border-top: 1px solid var(--rule); }
       section { padding: 4rem 1.5rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
+      footer a { margin-left: 0; margin-right: 1rem; }
     }
   </style>
 </head>
 <body>
-
-  <!-- NAV -->
   <nav>
-    <a href="/home" class="nav-logo">CostaWorks</a>
+    <a href="/index.html" class="nav-logo">CostaWorks</a>
     <ul class="nav-links">
-      <li><a href="/services/engineering">Services</a></li>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/pricing">Pricing</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/collaborate.html">Collaborate</a></li>
+      <li><a href="/contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero" style="border-top:none; padding:0;">
-    <div class="hero-left">
-      <p class="hero-label">Independent Engineering · Concept to Production</p>
-      <h1 class="hero-title">
-        Engineering without<br>the <em>overhead.</em>
-      </h1>
-      <p class="hero-sub">
-        You work directly with me — a mechanical engineer with experience across motorsports, manufacturing, and real-world product development. No account managers. No layers.
-      </p>
-      <a href="/contact" class="hero-cta">
-        Discuss your project
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-
-    <div class="hero-right">
-      <div class="proof-item">
-        <div class="proof-num">F500</div>
-        <div class="proof-label">Fortune 500 clients</div>
-        <div class="proof-desc">Products shipped to large-scale enterprise customers</div>
+  <section style="border-top:none; padding:0;">
+    <div class="hero">
+      <div class="hero-left">
+        <p class="hero-label">Independent Engineering · Concept to Production</p>
+        <h1 class="hero-title">Engineering<br>without the<br><em>overhead.</em></h1>
+        <p class="hero-sub">I'm Kyle. I take ideas from blank page to working product — and I've done it <strong>more than once</strong> in ways nobody had figured out before. You work directly with me, start to finish.</p>
+        <div class="hero-ctas">
+          <a href="/contact.html" class="btn-rust">Start a project <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/collaborate.html" class="btn-ghost">Building something?</a>
+        </div>
       </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <div class="proof-num">3×</div>
-        <div class="proof-label">Certified disciplines</div>
-        <div class="proof-desc">SolidWorks, multi-axis CAM, metrology & inspection</div>
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <div class="proof-num">∞</div>
-        <div class="proof-label">Timezones served</div>
-        <div class="proof-desc">Clients across the US, Europe, and beyond</div>
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <div class="proof-num">0</div>
-        <div class="proof-label">Automated replies</div>
-        <div class="proof-desc">Every message is read and answered by me, personally</div>
+      <div class="hero-right">
+        <div class="proof-item">
+          <div class="proof-num">10+</div>
+          <div class="proof-label">"First in the world" solutions</div>
+          <div class="proof-desc">Problems nobody else had cracked — solved and shipped</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-num">$1M+</div>
+          <div class="proof-label">Revenue per flagship product</div>
+          <div class="proof-desc">Annual returns on products I took from concept to shelf, solo</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-num">25+</div>
+          <div class="proof-label">Engineers built and led</div>
+          <div class="proof-desc">Grew a full engineering department from a team of one</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-num">0</div>
+          <div class="proof-label">Automated replies</div>
+          <div class="proof-desc">Every message read and answered by me, personally</div>
+        </div>
       </div>
     </div>
   </section>
@@ -523,41 +173,67 @@
     <div class="section-inner">
       <p class="section-label reveal">What I do</p>
       <h2 class="section-title reveal">From a sketch to something <em>real.</em></h2>
-      <p class="reveal" style="color:var(--mid); max-width:60ch; font-size:0.88rem;">
-        I've worked across the full product development lifecycle — not just the design phase. That means I think about manufacturing, tolerances, and cost before the first drawing is finished.
-      </p>
-
+      <p class="section-sub reveal">I've worked across the full product development lifecycle — not just the design phase. That means manufacturing constraints, supplier realities, and production cost are already in the picture before the first drawing is finished.</p>
       <div class="services-grid">
         <div class="service-card reveal">
           <div class="service-icon">⚙️</div>
           <div class="service-name">Mechanical Design</div>
-          <div class="service-desc">CAD modeling, assemblies, and technical documentation. Designed with machining strategy and tolerance stack-up in mind from the start.</div>
+          <div class="service-desc">CAD modeling, assemblies, GD&T drawings. Designed with machining strategy, tolerance stack-up, and real-world buildability in mind from day one.</div>
         </div>
         <div class="service-card reveal">
           <div class="service-icon">🔩</div>
-          <div class="service-name">Prototyping & Iteration</div>
-          <div class="service-desc">Hands-on testing and refinement. I build things, break them, and make them better — not just sign off on drawings.</div>
+          <div class="service-name">Systems & Fabrication</div>
+          <div class="service-desc">Electromechanical integration, chassis wiring, CAN bus, engine management, custom fabrication. Engineering that works in the real world, not just on screen.</div>
         </div>
         <div class="service-card reveal">
           <div class="service-icon">🏭</div>
           <div class="service-name">Production Readiness</div>
-          <div class="service-desc">DFM/DFA, vendor sourcing, supplier coordination, and quality planning. Experience with Fortune 500 supply chains and small-batch manufacturers alike.</div>
+          <div class="service-desc">DFM/DFA, supplier sourcing, vendor relationships, quality planning. The connections and process to get things built — not just designed.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="process-bg">
+  <!-- PROOF STRIP -->
+  <section class="proof-strip">
+    <div class="section-inner">
+      <p class="section-label reveal">Track record</p>
+      <h2 class="section-title reveal">Work that ships <em>and sells.</em></h2>
+      <div class="proof-strip-grid">
+        <div class="proof-strip-item reveal">
+          <div class="strip-num">SEMA</div>
+          <div class="strip-label">Show builds</div>
+          <div class="strip-desc">Lead engineer on feature builds at the world's largest automotive trade show</div>
+        </div>
+        <div class="proof-strip-item reveal">
+          <div class="strip-num">F500</div>
+          <div class="strip-label">Enterprise work</div>
+          <div class="strip-desc">Projects adopted by Fortune 500 companies in production environments</div>
+        </div>
+        <div class="proof-strip-item reveal">
+          <div class="strip-num">Pro</div>
+          <div class="strip-label">Motorsports</div>
+          <div class="strip-desc">Custom parts on professional drift and time attack vehicles worldwide</div>
+        </div>
+        <div class="proof-strip-item reveal">
+          <div class="strip-num">3×</div>
+          <div class="strip-label">Certified</div>
+          <div class="strip-desc">SolidWorks, multi-axis CAM programming, metrology & precision inspection</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section>
     <div class="section-inner">
       <p class="section-label reveal">How it works</p>
-      <h2 class="section-title reveal">Simple process.<br><em>Serious results.</em></h2>
-
+      <h2 class="section-title reveal">Simple process. <em>Serious results.</em></h2>
       <div class="process-steps">
         <div class="process-step reveal">
           <div class="step-num">01 —</div>
           <div class="step-title">You reach out</div>
-          <div class="step-desc">You contact me directly. I read every message personally and respond with real answers — not a questionnaire.</div>
+          <div class="step-desc">You contact me directly. I read every message and respond with real answers — not a questionnaire.</div>
         </div>
         <div class="process-step reveal">
           <div class="step-num">02 —</div>
@@ -567,97 +243,37 @@
         <div class="process-step reveal">
           <div class="step-num">03 —</div>
           <div class="step-title">I get to work</div>
-          <div class="step-desc">You work with the person doing the engineering — not an account manager relaying messages across a building.</div>
+          <div class="step-desc">You work with the engineer doing the work — not a project manager relaying messages down a chain.</div>
         </div>
         <div class="process-step reveal">
           <div class="step-num">04 —</div>
-          <div class="step-title">You get something real</div>
-          <div class="step-desc">Deliverables built to survive manufacturing, suppliers, and production — not just to look good on screen.</div>
+          <div class="step-title">It gets built</div>
+          <div class="step-desc">Deliverables designed to survive manufacturing, suppliers, and production — not just look good on screen.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CREDENTIALS -->
-  <section>
-    <div class="section-inner">
-      <p class="section-label reveal">Background</p>
-      <h2 class="section-title reveal">Proven across <em>industries.</em></h2>
-
-      <div class="creds-grid">
-        <div class="cred-group reveal">
-          <h3>Certifications</h3>
-          <ul class="cred-list">
-            <li>SolidWorks Professional (CSWP)</li>
-            <li>Multi-axis CAM programming</li>
-            <li>Metrology & precision inspection</li>
-          </ul>
-        </div>
-        <div class="cred-group reveal">
-          <h3>Industries</h3>
-          <ul class="cred-list">
-            <li>Motorsports & performance automotive</li>
-            <li>Consumer & commercial product development</li>
-            <li>Custom manufacturing & tooling</li>
-            <li>Audio systems & electromechanical design</li>
-          </ul>
-        </div>
-        <div class="cred-group reveal">
-          <h3>Technical Skills</h3>
-          <ul class="cred-list">
-            <li>Mechanical & electromechanical design</li>
-            <li>CAD modeling, assemblies, GD&T drawings</li>
-            <li>Multi-axis CNC programming & machining</li>
-            <li>DFM / DFA / tolerance analysis</li>
-          </ul>
-        </div>
-        <div class="cred-group reveal">
-          <h3>Project Experience</h3>
-          <ul class="cred-list">
-            <li>Components on professional race cars</li>
-            <li>Products shipped worldwide</li>
-            <li>Fortune 500 supply chain integration</li>
-            <li>Concept-to-production for startups</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BAND -->
+  <!-- CTA -->
   <section class="cta-band">
-    <p class="section-label">Get in touch</p>
-    <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.6rem);">Got a project in mind?</h2>
-    <p>Tell me what you're building. I'll give you a straight answer on how I can help.</p>
-    <a href="/contact" class="cta-btn-light">
-      Start the conversation
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
+    <div class="section-inner">
+      <p class="section-label">Get in touch</p>
+      <h2 class="section-title">Got a project in mind?</h2>
+      <p>Tell me what you're building. I'll give you a straight answer on how I can help.</p>
+      <a href="/contact.html" class="btn-white">Start the conversation <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <p>© 2025 CostaWorks. All rights reserved.</p>
-    <div style="display:flex; gap:2rem;">
-      <a href="/services/engineering">Services</a>
-      <a href="/projects">Projects</a>
-      <a href="/contact">Contact</a>
-    </div>
+    <p>© 2025 CostaWorks LLC. All rights reserved.</p>
+    <div><a href="/services.html">Services</a><a href="/projects.html">Projects</a><a href="/pricing.html">Pricing</a><a href="/contact.html">Contact</a></div>
   </footer>
 
   <script>
-    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+      entries.forEach((entry, i) => { if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 60); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
   </script>
 </body>

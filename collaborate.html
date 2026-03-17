@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Collaborate — CostaWorks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #111009; --bg-raised: #161411; --bg-card: #1c1916; --text: #ddd8d0; --text-mid: #a09890; --text-dim: #6a6258; --rust: #c4532e; --rust-light: #e0632e; --rule: #2a2520; --mono: 'DM Mono', monospace; --serif: 'Fraunces', serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 15px; line-height: 1.75; overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--bg); border-bottom: 1px solid var(--rule); }
+    .nav-logo { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--rust-light); }
+
+    /* HERO */
+    .hero { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding: 10rem 3rem 6rem; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 55%; height: 100%; background: radial-gradient(ellipse at 80% 40%, rgba(196,83,46,0.09) 0%, transparent 65%); pointer-events: none; }
+    .hero-inner { max-width: 820px; }
+    .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s; }
+    .hero-title em { font-style: italic; color: var(--rust-light); }
+    .hero-sub { font-size: 1rem; color: var(--text-mid); line-height: 1.9; max-width: 54ch; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.35s; }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+    .hero-cta { opacity: 0; animation: fadeUp 0.7s ease forwards 0.5s; }
+    .btn-rust { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--rust); color: #fff; text-decoration: none; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.75rem; font-family: var(--mono); transition: background 0.2s, transform 0.2s; }
+    .btn-rust:hover { background: var(--rust-light); transform: translateY(-1px); }
+
+    /* WHAT I BRING */
+    .bring-section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); }
+    .bring-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .bring-left h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.2; margin-bottom: 1.25rem; }
+    .bring-left h2 em { font-style: italic; color: var(--rust-light); }
+    .bring-left p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.9; margin-bottom: 1rem; }
+    .bring-left p strong { color: var(--text); font-weight: 500; }
+    .bring-right { display: flex; flex-direction: column; gap: 0; }
+    .bring-item { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+    .bring-item:first-child { padding-top: 0; }
+    .bring-item:last-child { border-bottom: none; }
+    .bring-key { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust-light); margin-bottom: 0.4rem; }
+    .bring-val { font-size: 0.84rem; color: var(--text-mid); line-height: 1.75; }
+    .bring-val strong { color: var(--text); font-weight: 500; }
+
+    /* NUMBERS */
+    .numbers-section { padding: 5rem 3rem; border-bottom: 1px solid var(--rule); background: var(--bg-raised); }
+    .numbers-inner { max-width: 960px; margin: 0 auto; }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.25rem; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .section-title em { font-style: italic; color: var(--rust-light); }
+    .section-sub { font-size: 0.88rem; color: var(--text-mid); max-width: 50ch; line-height: 1.85; margin-bottom: 3rem; }
+    .numbers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); }
+    .number-item { background: var(--bg-raised); padding: 2.5rem 2rem; }
+    .number-val { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; font-style: italic; color: var(--rust-light); line-height: 1; margin-bottom: 0.5rem; }
+    .number-label { font-size: 0.85rem; color: var(--text); font-weight: 500; margin-bottom: 0.3rem; }
+    .number-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* WHO */
+    .who-section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); }
+    .who-inner { max-width: 960px; margin: 0 auto; }
+    .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); margin-top: 3rem; }
+    .who-card { background: var(--bg-card); padding: 2.5rem 2rem; }
+    .who-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.75rem; }
+    .who-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.75; }
+    .who-desc strong { color: var(--text-mid); }
+
+    /* NOT A FIT */
+    .notfit-section { padding: 4rem 3rem; border-bottom: 1px solid var(--rule); background: var(--bg-raised); }
+    .notfit-inner { max-width: 700px; margin: 0 auto; }
+    .notfit-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem; }
+    .notfit-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; font-style: italic; color: var(--text-dim); margin-bottom: 1rem; }
+    .notfit-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .notfit-list li { font-size: 0.82rem; color: var(--text-dim); display: flex; gap: 0.75rem; line-height: 1.6; }
+    .notfit-list li::before { content: '×'; color: #3a3530; flex-shrink: 0; }
+
+    /* CTA */
+    .cta-section { padding: 7rem 3rem; border-bottom: 1px solid var(--rule); }
+    .cta-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+    .cta-eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.5rem; }
+    .cta-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.1; color: var(--text); margin-bottom: 1.25rem; }
+    .cta-title em { font-style: italic; color: var(--rust-light); }
+    .cta-desc { font-size: 0.9rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 2.5rem; }
+
+    footer { padding: 2rem 3rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: 0.73rem; color: var(--text-dim); }
+    footer a { font-size: 0.73rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; margin-left: 2rem; }
+    footer a:hover { color: var(--rust-light); }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; } .nav-links { gap: 1.25rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .bring-section, .numbers-section, .who-section, .cta-section { padding: 4rem 1.5rem; }
+      .bring-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+      .who-grid { grid-template-columns: 1fr; }
+      .notfit-section { padding: 3rem 1.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      footer a { margin-left: 0; margin-right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/index.html" class="nav-logo">CostaWorks</a>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/collaborate.html" class="active">Collaborate</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">For founders & early-stage teams</p>
+      <h1 class="hero-title">Let's build<br>something<br><em>together.</em></h1>
+      <p class="hero-sub">I've taken products from blank page to <strong>seven figures in annual revenue</strong>. I've built engineering teams from one person to twenty-five. If you're building something early-stage and need someone who can own the entire engineering function — not just execute tasks — I'm open to that conversation.<br><br>For the right project, <strong>equity makes more sense than hourly.</strong></p>
+      <div class="hero-cta">
+        <a href="#pitch" class="btn-rust">Tell me about your project <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bring-section">
+    <div class="bring-inner">
+      <div class="bring-left reveal">
+        <h2>What I actually <em>bring.</em></h2>
+        <p>Most early-stage companies need to hire an engineer, an engineering manager, a sourcer, and someone who can interface with manufacturing. That's four hires and a lot of coordination overhead.</p>
+        <p><strong>I can be all of that.</strong> I have the technical skills, the supplier network, the manufacturing knowledge, and the track record of running an engineering function. For a startup, that's a real advantage.</p>
+        <p>I'm not looking for a paycheck. I'm looking for a project worth being part of — one where I can have real impact and share in what we build together.</p>
+      </div>
+      <div class="bring-right reveal">
+        <div class="bring-item">
+          <p class="bring-key">What I own</p>
+          <p class="bring-val">Full engineering function — design, prototyping, systems, suppliers, quality, team building. <strong>Off your plate entirely.</strong></p>
+        </div>
+        <div class="bring-item">
+          <p class="bring-key">What I bring day one</p>
+          <p class="bring-val">An existing supplier network, proven product development process, and a track record of shipping. <strong>No ramp-up on the basics.</strong></p>
+        </div>
+        <div class="bring-item">
+          <p class="bring-key">What I want</p>
+          <p class="bring-val">Meaningful equity and the autonomy to do the work right. <strong>I'm motivated when I have skin in the game.</strong></p>
+        </div>
+        <div class="bring-item">
+          <p class="bring-key">Industries</p>
+          <p class="bring-val">Open to automotive, hardware, manufacturing, consumer products, and beyond. <strong>Good problems don't care what industry they're in.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="numbers-section">
+    <div class="numbers-inner">
+      <p class="section-label reveal">Why trust me with this</p>
+      <h2 class="section-title reveal">Not a list of degrees. <em>Things that happened.</em></h2>
+      <p class="section-sub reveal">The track record that matters.</p>
+      <div class="numbers-grid">
+        <div class="number-item reveal">
+          <div class="number-val">$1M+</div>
+          <div class="number-label">Per flagship product</div>
+          <div class="number-desc">Annual revenue on products I took from concept to shelf, start to finish</div>
+        </div>
+        <div class="number-item reveal">
+          <div class="number-val">10+</div>
+          <div class="number-label">World firsts</div>
+          <div class="number-desc">Solutions nobody else had successfully built before — figured out and shipped</div>
+        </div>
+        <div class="number-item reveal">
+          <div class="number-val">25+</div>
+          <div class="number-label">Engineers led</div>
+          <div class="number-desc">Built a full engineering department from a single-person team</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="who-section">
+    <div class="who-inner">
+      <p class="section-label reveal">Who this is for</p>
+      <h2 class="section-title reveal">The right <em>fit.</em></h2>
+      <p class="section-sub reveal">I'm selective — not because I'm arrogant, but because this only works when it's genuinely right for both sides.</p>
+      <div class="who-grid">
+        <div class="who-card reveal">
+          <h3 class="who-title">Early-stage hardware startups</h3>
+          <p class="who-desc">You have a concept and maybe some funding, but no engineering team yet. You need someone who can own the entire function and build it out as you grow.</p>
+        </div>
+        <div class="who-card reveal">
+          <h3 class="who-title">Founders with a specific problem</h3>
+          <p class="who-desc">You know what you want to build but don't have the technical background to get there. You need a co-founder-level engineer, not just a contractor.</p>
+        </div>
+        <div class="who-card reveal">
+          <h3 class="who-title">Companies at an inflection point</h3>
+          <p class="who-desc">You've validated something and need to scale the engineering function. You need someone who's done this before — not someone figuring it out alongside you.</p>
+        </div>
+        <div class="who-card reveal">
+          <h3 class="who-title">Interesting problems, any industry</h3>
+          <p class="who-desc">If the engineering challenge is genuinely hard and the opportunity is real, I'm open to it. Good problems don't care what industry they're in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notfit-section">
+    <div class="notfit-inner reveal">
+      <p class="notfit-label">In the interest of honesty</p>
+      <p class="notfit-title">Probably not the right fit if...</p>
+      <ul class="notfit-list">
+        <li>You need someone to execute a fully-defined spec with no autonomy</li>
+        <li>The equity offer is nominal and the real expectation is discounted labor</li>
+        <li>You want a yes-person rather than someone who'll push back when something's wrong</li>
+        <li>The project requires someone full-time on-site immediately</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-section" id="pitch">
+    <div class="cta-inner reveal">
+      <p class="cta-eyebrow">Let's talk</p>
+      <h2 class="cta-title">Pitch me your <em>idea.</em></h2>
+      <p class="cta-desc">Tell me what you're building, where you are, and what you're looking for. I'll tell you honestly whether it sounds like a fit — and if it doesn't, I'll tell you that too. No wasted time on either side.</p>
+      <a href="/contact.html" class="btn-rust">Get in touch <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 CostaWorks LLC. All rights reserved.</p>
+    <div><a href="/services.html">Services</a><a href="/projects.html">Projects</a><a href="/pricing.html">Pricing</a><a href="/contact.html">Contact</a></div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => { if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); } });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

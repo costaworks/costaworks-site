@@ -11,537 +11,274 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink: #1a1814;
-      --paper: #f4f1eb;
-      --rust: #b84c2a;
-      --rust-light: #d9632e;
-      --mid: #6b6560;
-      --rule: #d8d3ca;
+      --bg: #111009;
+      --bg-raised: #161411;
+      --bg-card: #1c1916;
+      --text: #ddd8d0;
+      --text-mid: #a09890;
+      --text-dim: #6a6258;
+      --rust: #c4532e;
+      --rust-light: #e0632e;
+      --rule: #2a2520;
       --mono: 'DM Mono', monospace;
       --serif: 'Fraunces', serif;
     }
 
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 15px; line-height: 1.75; overflow-x: hidden; }
 
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: 15px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--bg); border-bottom: 1px solid var(--rule); }
+    .nav-logo { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--rust-light); }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 3rem;
-      background: var(--paper);
-      border-bottom: 1px solid var(--rule);
-    }
+    /* HEADER */
+    .page-header { padding: 10rem 3rem 6rem; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: end; position: relative; overflow: hidden; }
+    .page-header::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(ellipse, rgba(196,83,46,0.07) 0%, transparent 65%); pointer-events: none; }
+    .page-label { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+    .page-title { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 300; line-height: 1.08; letter-spacing: -0.025em; opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s; }
+    .page-title em { font-style: italic; color: var(--rust-light); }
+    .page-intro { font-size: 1rem; color: var(--text-mid); line-height: 1.85; max-width: 44ch; opacity: 0; animation: fadeUp 0.7s ease forwards 0.35s; align-self: end; }
 
-    .nav-logo {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      text-decoration: none;
-    }
+    /* NARRATIVE */
+    .narrative-section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); }
+    .narrative-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 220px 1fr; gap: 5rem; align-items: start; }
+    .narrative-sidebar { position: sticky; top: 5.5rem; }
+    .sidebar-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.5rem; }
+    .sidebar-rule { width: 32px; height: 1px; background: var(--rust); margin-bottom: 1.5rem; }
+    .sidebar-tags { display: flex; flex-direction: column; gap: 0.5rem; }
+    .sidebar-tag { font-size: 0.72rem; color: var(--text-dim); padding: 0.3rem 0; border-bottom: 1px solid var(--rule); }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    .narrative-body p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.95; margin-bottom: 1.75rem; max-width: 64ch; }
+    .narrative-body p:last-child { margin-bottom: 0; }
+    .narrative-body strong { color: var(--text); font-weight: 500; }
+    .narrative-body .pull { font-family: var(--serif); font-size: 1.25rem; font-weight: 300; font-style: italic; color: var(--text); line-height: 1.5; margin: 2.5rem 0; padding-left: 1.5rem; border-left: 2px solid var(--rust); max-width: 52ch; }
 
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--mid);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    /* SKILLS */
+    .skills-section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); background: var(--bg-raised); }
+    .skills-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 220px 1fr; gap: 5rem; }
+    .skills-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); padding-top: 0.2rem; position: sticky; top: 5.5rem; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--rule); }
+    .skill-item { padding: 1.5rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .skill-item:nth-child(2n) { border-right: none; }
+    .skill-item:nth-last-child(-n+2) { border-bottom: none; }
+    .skill-name { font-size: 0.82rem; color: var(--text); font-weight: 500; margin-bottom: 0.3rem; }
+    .skill-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; }
+    .skill-cert { display: inline-block; margin-top: 0.4rem; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rust-light); border: 1px solid var(--rust); padding: 0.1rem 0.45rem; }
 
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--rust); }
+    /* HOW I WORK */
+    .howwork-section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); }
+    .howwork-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 220px 1fr; gap: 5rem; }
+    .howwork-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); position: sticky; top: 5.5rem; }
+    .howwork-card { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1.25rem; padding: 1.75rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+    .howwork-card:last-child { border-bottom: none; }
+    .howwork-icon { font-size: 1rem; margin-top: 0.15rem; }
+    .howwork-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+    .howwork-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.75; }
 
-    /* ── PAGE HEADER ── */
-    .page-header {
-      padding: 10rem 3rem 5rem;
-      border-bottom: 1px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: end;
-    }
+    /* CTA */
+    .cta-section { padding: 6rem 3rem; background: var(--rust); text-align: center; }
+    .cta-eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 1.25rem; }
+    .cta-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; color: #fff; margin-bottom: 0.75rem; line-height: 1.15; }
+    .cta-title em { font-style: italic; }
+    .cta-sub { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; }
+    .btn-white { display: inline-flex; align-items: center; gap: 0.75rem; background: #fff; color: var(--rust); font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.75rem; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
+    .btn-white:hover { opacity: 0.92; transform: translateY(-1px); }
 
-    .page-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 1.25rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.1s;
-    }
+    footer { padding: 2rem 3rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: 0.73rem; color: var(--text-dim); }
+    footer a { font-size: 0.73rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; margin-left: 2rem; }
+    footer a:hover { color: var(--rust-light); }
 
-    .page-title {
-      font-family: var(--serif);
-      font-size: clamp(2.6rem, 5vw, 4rem);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.2s;
-    }
-
-    .page-title em {
-      font-style: italic;
-      color: var(--rust);
-    }
-
-    .page-intro {
-      font-size: 1rem;
-      color: var(--mid);
-      line-height: 1.75;
-      max-width: 48ch;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.35s;
-      align-self: end;
-    }
-
-    /* ── CONTENT SECTIONS ── */
-    .content-section {
-      padding: 5rem 3rem;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .content-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .content-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--mid);
-      padding-top: 0.3rem;
-      position: sticky;
-      top: 5rem;
-    }
-
-    .content-body h3 {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 300;
-      font-style: italic;
-      margin-bottom: 1rem;
-      color: var(--ink);
-    }
-
-    .content-body p {
-      font-size: 0.88rem;
-      color: var(--mid);
-      margin-bottom: 1rem;
-      max-width: 62ch;
-      line-height: 1.8;
-    }
-
-    .content-body p:last-child { margin-bottom: 0; }
-
-    .content-body strong { color: var(--ink); font-weight: 500; }
-
-    /* inline highlight */
-    .highlight {
-      display: inline;
-      background: var(--ink);
-      color: var(--paper);
-      padding: 0.05em 0.3em;
-      font-style: normal;
-    }
-
-    /* ── SKILLS BLOCK ── */
-    .skills-block {
-      margin-top: 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem 3rem;
-    }
-
-    .skill-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .skill-name {
-      font-size: 0.82rem;
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .skill-bar {
-      height: 2px;
-      background: var(--rule);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .skill-fill {
-      position: absolute;
-      top: 0; left: 0; height: 100%;
-      background: var(--rust);
-      width: 0;
-      transition: width 1s ease;
-    }
-
-    .skill-fill.animated { width: var(--w); }
-
-    /* ── PHILOSOPHY BLOCK (dark) ── */
-    .philosophy {
-      background: var(--ink);
-      color: var(--paper);
-    }
-
-    .philosophy .content-label { color: #555; }
-    .philosophy .content-body h3 { color: var(--paper); }
-    .philosophy .content-body p { color: #888; }
-    .philosophy .content-body strong { color: var(--paper); }
-
-    /* pull quote */
-    .pull-quote {
-      font-family: var(--serif);
-      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--rust-light);
-      line-height: 1.4;
-      border-left: 2px solid var(--rust-light);
-      padding-left: 1.5rem;
-      margin: 2rem 0;
-    }
-
-    /* ── WORKING WITH ME ── */
-    .working-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      margin-top: 2rem;
-      border: 1px solid var(--rule);
-    }
-
-    .working-card {
-      padding: 2rem;
-      border-right: 1px solid var(--rule);
-    }
-
-    .working-card:last-child { border-right: none; }
-
-    .working-icon {
-      font-size: 1.2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .working-title {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .working-desc {
-      font-size: 0.8rem;
-      color: var(--mid);
-      line-height: 1.65;
-    }
-
-    /* ── CTA ── */
-    .cta-band {
-      background: var(--rust);
-      color: #fff;
-      padding: 5rem 3rem;
-      text-align: center;
-    }
-
-    .cta-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 1.25rem;
-    }
-
-    .cta-title {
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      font-weight: 300;
-      color: #fff;
-      margin-bottom: 0.75rem;
-    }
-
-    .cta-sub {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 2.5rem;
-    }
-
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: #fff;
-      color: var(--rust);
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.9rem 1.75rem;
-      font-family: var(--mono);
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .cta-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 3rem;
-      border-top: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer p { font-size: 0.75rem; color: var(--mid); }
-
-    footer a {
-      font-size: 0.75rem;
-      color: var(--mid);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    footer a:hover { color: var(--rust); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: none; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
-      .page-header { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 2rem; }
-      .content-inner { grid-template-columns: 1fr; gap: 1.5rem; }
-      .content-label { position: static; }
-      .content-section { padding: 3rem 1.5rem; }
-      .skills-block { grid-template-columns: 1fr; }
-      .working-grid { grid-template-columns: 1fr; }
-      .working-card { border-right: none; border-bottom: 1px solid var(--rule); }
-      .working-card:last-child { border-bottom: none; }
+      .nav-links { gap: 1.25rem; }
+      .page-header { grid-template-columns: 1fr; padding: 7rem 1.5rem 3.5rem; gap: 2rem; }
+      .narrative-inner, .skills-inner, .howwork-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .narrative-sidebar, .skills-label, .howwork-label { position: static; }
+      .narrative-section, .skills-section, .howwork-section { padding: 3.5rem 1.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .skill-item:nth-child(2n) { border-right: none; }
+      .skill-item { border-right: none; border-bottom: 1px solid var(--rule); }
+      .skill-item:last-child { border-bottom: none; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
+      footer a { margin-left: 0; margin-right: 1rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
-    <a href="/home" class="nav-logo">CostaWorks</a>
+    <a href="/index.html" class="nav-logo">CostaWorks</a>
     <ul class="nav-links">
-      <li><a href="/services/engineering">Services</a></li>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/about" class="active">About</a></li>
-      <li><a href="/pricing">Pricing</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/about.html" class="active">About</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/collaborate.html">Collaborate</a></li>
+      <li><a href="/contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- PAGE HEADER -->
   <header class="page-header">
     <div>
       <p class="page-label">About</p>
-      <h1 class="page-title">The engineer<br>doing the <em>work.</em></h1>
+      <h1 class="page-title">Hi, I'm Kyle.<br>I build <em>things.</em></h1>
     </div>
-    <p class="page-intro">
-      I'm a mechanical engineer who has worked across the full product lifecycle — from early concept through production. My background is rooted in the automotive aftermarket, where designs have to be durable, cost-conscious, and buildable in the real world.
-    </p>
+    <p class="page-intro">Mechanical engineer. Gearhead. The kind of person who took things apart growing up to see how they worked — and never really stopped. My career has been less of a plan and more of a series of problems I couldn't leave alone.</p>
   </header>
 
-  <!-- BACKGROUND -->
-  <div class="content-section">
-    <div class="content-inner">
-      <p class="content-label reveal">Background</p>
-      <div class="content-body reveal">
-        <h3>Built in the real world.</h3>
+  <!-- NARRATIVE -->
+  <section class="narrative-section">
+    <div class="narrative-inner">
+      <div class="narrative-sidebar reveal">
+        <p class="sidebar-label">Background</p>
+        <div class="sidebar-rule"></div>
+        <div class="sidebar-tags">
+          <span class="sidebar-tag">Mechanical design</span>
+          <span class="sidebar-tag">Product development</span>
+          <span class="sidebar-tag">Systems integration</span>
+          <span class="sidebar-tag">Engine management</span>
+          <span class="sidebar-tag">CNC / CAM</span>
+          <span class="sidebar-tag">Metrology</span>
+          <span class="sidebar-tag">Team building</span>
+          <span class="sidebar-tag">Motorsports</span>
+        </div>
+      </div>
+
+      <div class="narrative-body reveal">
         <p>
-          My work has shipped on <strong>professional race cars</strong>, street vehicles around the world, and in products used by <strong>Fortune 500 companies</strong>. It has also included custom hardware, audio systems, and manufacturing tooling.
+          I grew up as both a gearhead and a tinkerer — always getting into trouble for taking things apart. Bikes, RC cars, ATVs, computers. I built my first PC from spare parts, started repairing computers for money, and bought my first car at 14. By the time I had my license, I'd already rebuilt it.
         </p>
         <p>
-          The automotive aftermarket is an unforgiving environment. Parts have to survive real abuse, pass muster with demanding customers, and be manufacturable at a price that makes sense. That mindset carries into every project I take on, regardless of industry.
+          At 18, I taught myself engine tuning on a WRX. I tuned my own car, then friends' cars, and it turned into a real income stream. That same year I started designing and selling aftermarket parts. Early on I noticed how small design changes caused big swings in machining cost — so I went and talked to the machinist. That conversation changed how I think about engineering. <strong>You can't design well for something you don't understand.</strong>
+        </p>
+        <p class="pull">
+          I've been the first to make things work more times than I can count. That's not luck — it's what happens when you understand the full system instead of just your piece of it.
         </p>
         <p>
-          Over the years I've been involved at nearly every stage of product development — not just the design phase. That means I design with manufacturing, tolerances, inspection, and cost already in mind. Fewer surprises later.
+          Over the years I worked across nearly every stage of product development — at a contract engineering shop doing kit car development, CAM programming, chassis wiring, CAN bus, and metrology; and later at a high-volume Nissan aftermarket company where I joined as the <strong>first and only engineer</strong> and eventually helped build a team of 25+. I set up supplier relationships, established design standards, ran the CNC machines and 3D printers, and led development on products that generate over <strong>$1M annually</strong>. My final role was Product Innovation Lead — essentially: here's a broad idea, go figure it out.
+        </p>
+        <p>
+          Along the way I've done things nobody had done before. A Roots-style supercharger kit for a Nissan pickup — first working setup of its kind. A VR30-into-VQ37 engine swap with full OEM functionality retained — still the only one. A handful of other firsts I've stopped counting. These aren't things I planned. They're what happens when a problem shows up and you're too stubborn to leave it unsolved.
+        </p>
+        <p>
+          I've also built things outside of work. Custom parts for professional drift and time attack cars. My own 3D printer designs. Firmware improvements for industrial printers that got adopted by a Fortune 500 company. SEMA builds I mostly put together with my own hands.
+        </p>
+        <p>
+          Now I work independently — product development, mechanical design, and systems work for clients across the US and Europe. I work from home, which means I'm flexible across time zones and available outside normal business hours. Fair warning: there is occasionally a kid in the background on video calls. It hasn't been a problem yet.
         </p>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- SKILLS -->
-  <div class="content-section">
-    <div class="content-inner">
-      <p class="content-label reveal">Skills</p>
-      <div class="content-body reveal">
-        <h3>Certified and applied.</h3>
-        <p>Professional qualifications in SolidWorks, multi-axis CAM, and metrology — used daily, not just listed.</p>
+  <section class="skills-section">
+    <div class="skills-inner">
+      <p class="skills-label reveal">Certifications &amp; skills</p>
+      <div class="skills-grid reveal">
+        <div class="skill-item">
+          <p class="skill-name">Mechanical Design & CAD</p>
+          <p class="skill-desc">SolidWorks modeling, assemblies, GD&T drawings, tolerance analysis</p>
+          <span class="skill-cert">CSWP Certified</span>
+        </div>
+        <div class="skill-item">
+          <p class="skill-name">Multi-Axis CAM</p>
+          <p class="skill-desc">Complex CNC programming, machining strategy, toolpath optimization</p>
+          <span class="skill-cert">Certified</span>
+        </div>
+        <div class="skill-item">
+          <p class="skill-name">Metrology & Inspection</p>
+          <p class="skill-desc">Precision measurement, inspection planning, QC processes</p>
+          <span class="skill-cert">Certified</span>
+        </div>
+        <div class="skill-item">
+          <p class="skill-name">Systems & Wiring</p>
+          <p class="skill-desc">Chassis wiring, CAN bus, BCM programming, PMU, engine management</p>
+        </div>
+        <div class="skill-item">
+          <p class="skill-name">DFM / DFA</p>
+          <p class="skill-desc">Design for manufacturing and assembly, supplier-aware design from day one</p>
+        </div>
+        <div class="skill-item">
+          <p class="skill-name">Product Development</p>
+          <p class="skill-desc">Full lifecycle — concept through production handoff, vendor sourcing, QC</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="skills-block">
-          <div class="skill-row">
-            <span class="skill-name">Mechanical Design & CAD</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:95%"></div></div>
+  <!-- HOW I WORK -->
+  <section class="howwork-section">
+    <div class="howwork-inner">
+      <p class="howwork-label reveal">Working with me</p>
+      <div class="reveal">
+        <div class="howwork-card">
+          <div class="howwork-icon">✉️</div>
+          <div>
+            <p class="howwork-title">Direct communication</p>
+            <p class="howwork-desc">Every message is read and answered by me. No assistants, no filtering, no waiting for someone to loop someone else in.</p>
           </div>
-          <div class="skill-row">
-            <span class="skill-name">Multi-axis CAM Programming</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:90%"></div></div>
+        </div>
+        <div class="howwork-card">
+          <div class="howwork-icon">🌐</div>
+          <div>
+            <p class="howwork-title">Flexible across time zones</p>
+            <p class="howwork-desc">I work with clients across the US and Europe. Working from home means scheduling isn't tied to a fixed office window.</p>
           </div>
-          <div class="skill-row">
-            <span class="skill-name">Metrology & Inspection</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:88%"></div></div>
+        </div>
+        <div class="howwork-card">
+          <div class="howwork-icon">🔧</div>
+          <div>
+            <p class="howwork-title">Scalable when it matters</p>
+            <p class="howwork-desc">I keep my workload manageable so every project gets proper attention. If yours grows, I have a vetted network of engineers I can bring in without losing accountability.</p>
           </div>
-          <div class="skill-row">
-            <span class="skill-name">DFM / DFA</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:92%"></div></div>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Prototyping & Testing</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:93%"></div></div>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Vendor & Supply Chain</span>
-            <div class="skill-bar"><div class="skill-fill" style="--w:82%"></div></div>
+        </div>
+        <div class="howwork-card">
+          <div class="howwork-icon">⚡</div>
+          <div>
+            <p class="howwork-title">Open to equity arrangements</p>
+            <p class="howwork-desc">For the right early-stage project, I'm interested in more than a contractor relationship. If you're building something and need someone to own the engineering function, <a href="/collaborate.html" style="color:var(--rust-light); text-decoration:none;">let's talk</a>.</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- PHILOSOPHY (dark) -->
-  <div class="content-section philosophy">
-    <div class="content-inner">
-      <p class="content-label reveal">Philosophy</p>
-      <div class="content-body reveal">
-        <h3>Why I work independently.</h3>
-        <blockquote class="pull-quote">
-          "The people doing the work should be talking to the people with the problem."
-        </blockquote>
-        <p>
-          I've worked with companies of many sizes. Larger firms have their place, but they often create distance between clients and engineers — communication slows, accountability diffuses, and the person with context isn't the one in the meeting.
-        </p>
-        <p>
-          Working independently keeps it simple. <strong>You talk to me. I do the work.</strong> If a project scales beyond what I can handle solo, I have a trusted network of experienced engineers I can bring in — without sacrificing accountability.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- WORKING WITH ME -->
-  <div class="content-section">
-    <div class="content-inner">
-      <p class="content-label reveal">Working with me</p>
-      <div class="content-body reveal" style="width:100%">
-        <h3>What to expect.</h3>
-
-        <div class="working-grid">
-          <div class="working-card">
-            <div class="working-icon">✉️</div>
-            <div class="working-title">Direct communication</div>
-            <div class="working-desc">Every message you send is read and answered by me. No filtering, no delays, no automated replies.</div>
-          </div>
-          <div class="working-card">
-            <div class="working-icon">🌐</div>
-            <div class="working-title">Flexible availability</div>
-            <div class="working-desc">I work with clients across multiple time zones and can accommodate scheduling outside traditional hours.</div>
-          </div>
-          <div class="working-card">
-            <div class="working-icon">🔧</div>
-            <div class="working-title">Scalable if needed</div>
-            <div class="working-desc">I keep my workload manageable. If your project grows, I have a vetted network to bring in without losing continuity.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- CTA -->
-  <section class="cta-band">
-    <p class="cta-label">Let's work together</p>
-    <h2 class="cta-title">Tell me what you're building.</h2>
+  <section class="cta-section">
+    <p class="cta-eyebrow">Get in touch</p>
+    <h2 class="cta-title">Tell me what<br>you're <em>building.</em></h2>
     <p class="cta-sub">I'll give you a straight answer on whether and how I can help.</p>
-    <a href="/contact" class="cta-btn">
-      Get in touch
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <a href="/contact.html" class="btn-white">
+      Start the conversation
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <p>© 2025 CostaWorks. All rights reserved.</p>
-    <div style="display:flex; gap:2rem;">
-      <a href="/services/engineering">Services</a>
-      <a href="/projects">Projects</a>
-      <a href="/contact">Contact</a>
+    <p>© 2025 CostaWorks LLC. All rights reserved.</p>
+    <div>
+      <a href="/services.html">Services</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/contact.html">Contact</a>
     </div>
   </footer>
 
   <script>
-    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
-
-    // Skill bar animation
-    const bars = document.querySelectorAll('.skill-fill');
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('animated'), 200);
-          barObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    bars.forEach(b => barObserver.observe(b));
   </script>
 </body>
 </html>
